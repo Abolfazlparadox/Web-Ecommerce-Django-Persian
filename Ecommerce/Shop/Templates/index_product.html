@@ -1,0 +1,186 @@
+{% extends "main.html" %}
+{% block title %}product{% endblock title %}
+{% load humanize %}
+{% load static %}
+{% block body %}
+<section class="py-5">
+    <div class="container px-4 px-lg-5 my-5">
+        <div class="row gx-4 gx-lg-6 align-items-center">
+            <div class="col-md-6"><div class="myimgdiv" id="myimgdiv"><img id="myimg" class="card-img-top mb-5 mb-md-0" src="{{ object.image.url }}" alt="..." /></div></div>
+            <div class="col-md-6">
+                <div class="mb-3"> 
+                        {% if object.category %}
+                            <span class="badge bg-dark me-1">{{ object.category.name }}</span>
+                        {% endif %}
+                        
+                        {% if object.Advertising %}
+                            <span class="badge bg-danger me-1">{{ object.Advertising }}</span>
+                        {% endif %}
+                </div>
+                {{ object.date|timesince }}
+                <div class="small mb-1 ">ID: {{ object.id }}
+                    <div class="d-flex justify-content-start small text-warning mb-2">
+                        {% with ''|center:object.star as range  %}
+                                        {% for _ in range %}
+                                            <div class="bi-star-fill"></div>
+                                        {% endfor %}
+                                    {% endwith %}
+                    </div>
+                </div>
+                <h1 class="display-5 fw-bolder">{{ object.title }}</h1>
+                <div class="fs-5 mb-5">
+                    قیمت اصلی:<span class="text-decoration-line-through" id="result">{{ object.price | intcomma }} $</span>
+                    <span >{{ object.discount.title  | intcomma }}</span>
+                    <br>قیمت با تخفیف:{{ object.discounted_prices }}💲
+                    <!-- <span id="discount" style="display: none;">{{object.discount.value}}</span> -->
+                    <!-- <span id="price" style="display: none;">{{ object.price }}</span> -->
+                </div>
+                <p class="lead">{{ object.description |linebreaks }}</p>
+                <div class="d-flex">
+                    <input class="form-control text-center me-3" id="inputQuantity" type="num" value="1" style="max-width: 3rem" />
+                    <button class="btn btn-outline-dark flex-shrink-0" type="button" value="{{ object.id }}" id="add-cart">
+                        <i class="bi-cart-fill me-1"></i>
+                        اضافه کردن به سبدخرید
+                    </button>
+                </div>
+            </div>
+        </div>
+        <br><br>
+        <div class="row justify-content-lg-evenly">
+            <h1>نظرات ({{ comments|length }})</h1>
+            
+            {% for coment in comments %}
+            <div class="col-12 row-1">
+                <!-- Blog post-->
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <div class="small text-muted">{{ coment.date }}</div>
+                        <h2 class="card-title h4"> {{ coment.name }}</h2>
+                        <ul>
+                            <li>ID:{{ coment.id }}</li>
+                            <li>{{  coment.email }}</li>
+                        </ul>
+                        <div class="card-body">
+                            <div>
+                                <p class="card-text">{{ coment.massage }}.</p>
+                            </div>
+                            <div style="float: left;">
+                                <form method="post" action="{% url 'product-detail' object.slug %}">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="reply_id" value="{{ coment.id }}" />
+                                            <span class="input-group-text" id="basic-addon1">نام</span>
+                                            <input class="form-control ms-2" type="text" name="name_reply" placeholder="نام" required />
+                                            <span class="input-group-text" id="basic-addon2">پست الکترونیک</span>
+                                            <input class="form-control ms-2" type="email" name="email_reply" placeholder="پست الکترونیک" required />
+                                            <span class="input-group-text">متن نظر</span>
+                                            <textarea name="massage_reply" class="form-control" placeholder="متن پاسخ" required></textarea>
+                                            <div class="input-group flex-column justify-content-center align-content-center">
+                                                <button type="submit" class="mybtn  ">
+                                                پاسخ
+                                                </button>
+                                            </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                        <!-- Display the comment here -->
+                        <!-- Create a form for the reply -->
+                <!-- Display the replies for the comment here -->
+                {% for reply in coment.replies.all %}
+                <div class="px-5">
+                    <div class="card-body">
+                        <div class="small text-muted">{{ reply.date }}</div>
+                        <h2 class="card-title h4"> {{ reply.name }}</h2>
+                        <ul>
+                            <li>ID:{{ coment.id }}</li>
+                            <li>{{  coment.email }}</li>    
+                        </ul>
+                        <p class="card-text">{{ reply.massage }}</p>
+                    </div>
+                </div>
+                {% endfor %}
+                </div>
+            </div>
+            {% endfor %}
+        <br><br><br><br>
+        <h1>اضافه کردن نظر</h1>
+        <form method="post">
+            {% csrf_token %}
+            <div class="input-group mb-3">
+                <span class="input-group-text" id="basic-addon1">نام</span>
+                <input type="text" class="form-control me-2" placeholder="Full Name" name="name" aria-label="Username" aria-describedby="basic-addon1">
+                <input type="email" class="form-control ms-2" placeholder="Email" name="email" aria-label="Recipient's username" aria-describedby="basic-addon2">
+                <span class="input-group-text" id="basic-addon2">پست الکترونیک</span>
+            </div>
+            <div class="input-group">
+                <span class="input-group-text">متن نظر</span>
+                <textarea class="form-control" aria-label="text"  name="massage" rows="7"></textarea>
+            </div>
+            <div class="input-group flex-column justify-content-center align-content-center">
+            <button type="submit" class="mybtn ">
+                ارسال 
+            </button>
+            </div>
+        </form>
+    </div>
+</section>
+<script>
+    // var price = Number(document.getElementById("price").innerHTML)
+    // var discount = Number(document.getElementById("discount").innerHTML)
+    // if (discount != 0)
+    //     var new_price = price * discount
+    // document.getElementById("result").innerHTML= new_price.toLocaleString('en-US')
+</script>
+<script>
+    // check if button pressed
+    $(document).on('click','#add-cart',function(e){
+        e.preventDefault();
+        $.ajax({
+            type : 'POST',
+            url: "{% url 'cart-add' %}",
+            data:{
+                product_id :$('#add-cart').val(),
+                product_qty :$('#inputQuantity').val(),
+                csrfmiddlewaretoken: '{{ csrf_token }}',
+                action : 'post'
+            
+            },
+            success:function(json){
+                // console.log(json) 
+                document.getElementById("cart_quantity").textContent = json.qty
+            },
+            error:function(xhr,errmsg,err){
+
+            }
+        });
+    })
+</script>
+{% endblock body%}
+<!-- Related items section-->
+<section class="py-5 bg-light">
+    <div class="container px-4 px-lg-5 mt-5">
+        <h2 class="fw-bolder mb-4">Related products</h2>
+        <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+            <div class="col mb-5">
+                <div class="card h-100">
+                    <!-- Product image-->
+                    <img class="card-img-top" src="" alt="" />
+                    <!-- Product details-->
+                    <div class="card-body p-4">
+                        <div class="text-center">
+                            <!-- Product name-->
+                            <h5 class="fw-bolder">Fancy Product</h5>
+                            <!-- Product price-->
+                        </div>
+                    </div>
+                    <!-- Product actions-->
+                    <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                        <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">View options</a></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+

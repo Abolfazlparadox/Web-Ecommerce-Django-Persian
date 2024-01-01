@@ -1,0 +1,76 @@
+py -m venv Environment
+Environment/Scripts/activate
+pip install -r requirements.txt
+py -m pip install Django==2.2.13
+django-admin startproject Ecommerce
+cd Ecommerce
+py manage.py startapp Shop
+py manage.py runserver
+$add 'Paradox', in setting.py on    INSTALLED_APPS in Abolfazl
+$ create urls.py in Paradox
+    Write: 
+    from django.urls import path
+    urlpatterns = [
+    path(),
+    ]
+$ add urls Paradox in ursl Abolfazl 
+    import include
+    Write:  
+    path("Paradox/", include("Paradox.urls")),
+    py manage.py createsuperuser
+end{
+    30 azar ;
+    23 azar ;
+}
+pip install -r requirements.txt
+like login log out send for others and send the vidoe for login if even had confling whit your cod create new projet and send
+py manage.py makemigrations
+py manage.py migrate
+pip install social-auth-app-django
+$$$$$$$$$$$$$$$$$ episode 29 $$$$$$$$$$$$$$$$$
+pip install python-dotenv
+pip install social-auth-app-django
+py -m pip install --upgrade pip
+python manage.py collectstatic
+pip install python-dotenv
+py -m pip install pillow
+use     django.contrib.humanize aplication
+for numbers
+""
+how we can selet one part in models in views 
+#login as function
+# def login_user(request):
+#     if request.method == "POST":
+#         Username = request.POST['username']
+#         Password = request.POST['password']
+#         user= authenticate(request,username =Username ,password=Password)
+#         if user is not None:
+#             login(request,user)
+#             messages.success(request,("You Log In SuccessFully "))
+#             return redirect("index")
+#         else:
+#             messages.success(request,("You Log In NOT SuccessFully "))
+#             return redirect("login")
+
+#     else:
+#         context = {}
+#         return render(request,'login.html',context)
+# class ProductManager(models.Manager):
+#     def featured(self):
+#         return self.get_queryset().filter(featured=True)
+#     def get_by_id(self,id):
+#         qs = self.get_queryset().filter(id=id)
+#         if qs.count() == 1:
+#             return qs.first()
+#         return None
+# class comment(models.Model):
+#   name = models.CharField(max_length=50)
+#   email = models.EmailField()
+#   user = models.ForeignKey(user_model, on_delete=models.CASCADE)
+#   text = models.TextField(blank=True, null=True,verbose_name=("comment"))
+#   comment_reply = models.TextField(blank=True, null=True, verbose_name=("reply"))
+#   Like = models.PositiveIntegerField(default=0,blank=True, null=True, verbose_name=("Like"),)
+#   date_write = models.DateTimeField(auto_now=True, blank=True, null=True)
+#   date_remove = models.DateTimeField(auto_now=False, blank=True, null=True)
+#   active = models.BooleanField(default=False)
+#chetori vaghti to ye safhe hastin ke url dare beparim to ye url ke on url ttosh nidst '
