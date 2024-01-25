@@ -35,6 +35,7 @@ SESSION_COOKIE_AGE = 60 * 60 * 24 * 30
 
 
 INSTALLED_APPS = [
+    'jazzmin',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -64,7 +65,7 @@ ROOT_URLCONF = 'Ecommerce.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR , 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -87,14 +88,21 @@ WSGI_APPLICATION = 'Ecommerce.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'shop',
-        'USER': 'root',
-        'PASSWORD': 'Fitosamoelkamio7788$',
-        'HOST': '127.0.0.1',
-        'PORT':'3306',
-    } 
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
 }
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'shop',
+#         'USER': 'root',
+#         'PASSWORD': 'Fitosamoelkamio7788$',
+#         'HOST': '127.0.0.1',
+#         'PORT':'3306',
+#     } 
+# }
 
 
 # Password validation
@@ -143,3 +151,9 @@ MEDIA_ROOT = os.path.join(BASE_DIR,'media')
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+JAZZMIN_SETTINGS ={
+    'site_header':" lowest price, highest quality",
+    'site_brand':"Paradox Shop",
+    # 'site_logo':"assets/images/logo/paradox.png",
+    'copyright':"abolfazlparadox.com",
+}
