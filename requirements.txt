@@ -1,0 +1,6 @@
+social-auth-app-django
+python-dotenv
+Django
+django-bootstrap-v5
+django-jazzmin
+pillow
